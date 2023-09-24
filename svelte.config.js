@@ -17,7 +17,7 @@ const config = {
 			fallback: '404.html'
 		}),
 		paths: {
-			base: dev ? '' : 'https://berzanxyz.github.io/'
+			base: dev ? '' : 'https://berzanxyz.github.io'
 		}
 	}
 };
