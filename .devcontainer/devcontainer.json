@@ -4,7 +4,10 @@
 	},
 	"customizations": {
 		"vscode": {
-			"extensions": ["svelte.svelte-vscode", "bradlc.vscode-tailwindcss"]
+			"settings": {
+				"editor.defaultFormatter": "esbenp.prettier-vscode"
+			},
+			"extensions": ["svelte.svelte-vscode", "bradlc.vscode-tailwindcss", "esbenp.prettier-vscode"]
 		}
 	}
 }
