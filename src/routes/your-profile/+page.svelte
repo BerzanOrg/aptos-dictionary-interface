@@ -1,4 +1,5 @@
 <script>
+	import { base } from '$app/paths';
 	import { contract } from '$lib/stores/contract';
 	import { wallet } from '$lib/stores/wallet';
 
@@ -24,7 +25,7 @@
 					src={author.profilePhoto}
 					alt="your profile picture"
 					class="h-16 w-16 rounded-full border border-green-900" />
-				<a href="/author/{$wallet.address}">
+				<a href="{base}/author/{$wallet.address}">
 					<h2 class="font-['Inconsolata',mono-space] underline text-green-800">
 						{$wallet.address}
 					</h2>

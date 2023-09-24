@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { contract } from '$lib/stores/contract.js';
 	contract;
 
@@ -9,7 +10,7 @@
 
 <main
 	class="flex flex-col px-4 pt-2 pb-16 gap-6 bg-green-200 border border-green-300 rounded-lg w-full">
-	<a href="/word/{data.word}">
+	<a href="{base}/word/{data.word}">
 		<h1 class="text-4xl font-bold underline">
 			{data.word}
 		</h1>
@@ -23,7 +24,7 @@
 					<div class="flex justify-end gap-3">
 						<div
 							class="flex flex-col items-end text-green-800 font-['Inconsolata',mono-space] text-sm font-medium">
-							<a href="/author/{entry.author}" class="underline">
+							<a href="{base}/author/{entry.author}" class="underline">
 								{entry.author}
 							</a>
 							<p>

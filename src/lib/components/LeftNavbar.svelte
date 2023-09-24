@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { contract } from '$lib/stores/contract';
 	import { wallet } from '$lib/stores/wallet';
 </script>
@@ -10,15 +11,15 @@
 		<div class="flex flex-col underline font-medium">
 			{#if $contract?.words}
 				{#each $contract.words as [word]}
-					<a href="/word/{word}">{word}</a>
+					<a href="{base}/word/{word}">{word}</a>
 				{/each}
 			{/if}
 		</div>
 	</div>
 	<div class="flex flex-col">
 		{#if $wallet.isConnected}
-			<a href="/add-new-word" class="underline font-medium">Add New Word</a>
-			<a href="/your-profile" class="underline font-medium">Your Profile</a>
+			<a href="{base}/add-new-word" class="underline font-medium">Add New Word</a>
+			<a href="{base}/your-profile" class="underline font-medium">Your Profile</a>
 		{/if}
 	</div>
 </nav>
