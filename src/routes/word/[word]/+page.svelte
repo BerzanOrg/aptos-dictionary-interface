@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { authorStore } from '$lib/stores/authorStore';
-	import { wordStore } from '$lib/stores/wordStore.js';
+	import { contract } from '$lib/stores/contract.js';
+	contract;
 
 	export let data;
 
-	$: entries = $wordStore[data.word];
+	$: entries = $contract?.words.get(data.word);
 </script>
 
-<main class="flex flex-col px-4 py-2 gap-6 bg-green-200 border border-green-300 rounded-lg w-full">
+<main
+	class="flex flex-col px-4 pt-2 pb-16 gap-6 bg-green-200 border border-green-300 rounded-lg w-full">
 	<a href="/word/{data.word}">
 		<h1 class="text-4xl font-bold underline">
 			{data.word}
@@ -15,17 +16,28 @@
 	</a>
 	<div class="flex flex-col gap-5">
 		{#if entries}
-			{#each entries as { authorAddress, content }}
+			{#each entries as entry}
 				<div
-					class="flex flex-col bg-green-300 border border-green-400 px-3 py-1 rounded-lg selection:bg-green-600/50"
-				>
-					<p class="font-semibold">{content}</p>
-					<p class="text-sm self-end font-medium text-green-700">
-						Author: <a
-							href="/author/{authorAddress}"
-							class="underline font-['Inconsolata',mono-space]">{authorAddress}</a
-						>
-					</p>
+					class="flex flex-col bg-green-300 border border-green-400 px-3 pt-1 pb-2 gap-2 rounded-lg">
+					<p class="font-semibold text-green-900 selection:text-green-700">{entry.content}</p>
+					<div class="flex justify-end gap-3">
+						<div
+							class="flex flex-col items-end text-green-800 font-['Inconsolata',mono-space] text-sm font-medium">
+							<a href="/author/{entry.author}" class="underline">
+								{entry.author}
+							</a>
+							<p>
+								{new Intl.DateTimeFormat('en-UK', {
+									dateStyle: 'medium',
+									timeStyle: 'short'
+								}).format(entry.time)}
+							</p>
+						</div>
+						<img
+							src={$contract?.authors.get(entry.author)?.profilePhoto}
+							alt="profile photo of author {entry.author}"
+							class="h-11 w-11 rounded-full border border-green-500" />
+					</div>
 				</div>
 			{/each}
 		{:else}
