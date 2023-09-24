@@ -11,7 +11,7 @@ interface Contract {
 	authors: Map<string, Author>;
 }
 
-interface Entry {
+export interface Entry {
 	author: string;
 	content: string;
 	time: number;
