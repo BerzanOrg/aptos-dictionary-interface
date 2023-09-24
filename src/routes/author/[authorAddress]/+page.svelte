@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { authorStore } from '$lib/stores/authorStore';
-	import { wordStore } from '$lib/stores/wordStore.js';
+	import { contract } from '$lib/stores/contract.js';
 
 	export let data;
 
-	$: authorInfo = $authorStore[data.authorAddress];
+	$: authorInfo = $contract?.authors.get(data.authorAddress);
 </script>
 
 <main class="flex flex-col px-4 py-2 gap-6 bg-green-200 border border-green-300 rounded-lg w-full">
@@ -15,8 +14,7 @@
 				<img
 					src={authorInfo.profilePhoto}
 					alt="author profile photo"
-					class="h-32 w-32 rounded-full"
-				/>
+					class="h-32 w-32 rounded-full" />
 			{:else}
 				<p>author does not exist</p>
 			{/if}

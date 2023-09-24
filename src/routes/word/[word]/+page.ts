@@ -1,5 +1,5 @@
 export const load = ({ params }) => {
-    return {
-        word: params.word
-    }
-}
+	return {
+		word: params.word
+	};
+};
