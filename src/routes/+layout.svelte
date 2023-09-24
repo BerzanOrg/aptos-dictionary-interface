@@ -4,43 +4,10 @@
 	import LeftNavbar from '$lib/components/LeftNavbar.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import { walletStore } from '$lib/stores/walletStore';
+	import { wallet } from '$lib/stores/wallet';
+	import { Errors } from '$lib/utils/errors';
 
-	onMount(async () => {
-		if (!window.aptos) return;
-
-		const isConnected = await window.aptos.isConnected();
-		if (!isConnected) return;
-
-		const { address } = await window.aptos.getAccount();
-		const { chainId } = await window.aptos.getNetwork();
-
-		walletStore.set({
-			isConnected,
-			address,
-			network: chainId === '81' ? 'Devnet' : 'Unsupported'
-		});
-
-		window.aptos.onAccountChange(async ({ address }) => {
-			console.log('account changed');
-			const isConnected = await window.aptos?.isConnected();
-			if (!isConnected) return;
-
-			walletStore.set({
-				...$walletStore,
-				isConnected,
-				address
-			});
-		});
-
-		window.aptos.onNetworkChange(async ({ chainId }) => {
-			console.log('netowrk changed', chainId);
-			walletStore.set({
-				...$walletStore,
-				network: chainId === '81' ? 'Devnet' : 'Unsupported'
-			});
-		});
-	});
+	onMount(wallet.onMountCallback);
 </script>
 
 <Header />
@@ -49,3 +16,21 @@
 	<slot />
 </div>
 <Footer />
+
+<svelte:window
+	on:error={(e) => {
+		console.log(e);
+	}}
+	on:unhandledrejection={async (e) => {
+		e.preventDefault();
+		e.promise.catch((e) => {
+			const msg =
+				e === Errors.CurrentNetworkIsNotDevnet
+					? 'The current network is not set to devnet.'
+					: e === Errors.WalletNotFound
+					? 'Petra Wallet is not found.'
+					: 'An unknown error is happened.';
+
+			alert(msg);
+		});
+	}} />
