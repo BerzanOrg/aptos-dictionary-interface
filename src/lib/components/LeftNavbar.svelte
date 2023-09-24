@@ -8,7 +8,7 @@
 	class="flex min-w-fit flex-col justify-between px-3 py-1 min-h-[calc(100vh-16rem)] bg-green-200 border border-green-300 rounded-lg">
 	<div class="flex flex-col">
 		<h2 class="text-lg font-bold select-none">Words In The Dictionary</h2>
-		<div class="flex flex-col underline font-medium">
+		<div class="flex flex-col underline font-medium text-green-600">
 			{#if $contract?.words}
 				{#each $contract.words as [word]}
 					<a href="{base}/word/{word}">{word}</a>
