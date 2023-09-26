@@ -2,12 +2,12 @@
 	import { base } from '$app/paths';
 	import { contract } from '$lib/stores/contract';
 
-	$: getRandomWord = () => {
+	$: getRandomWordUrl = () => {
 		const words = Array.from($contract.words.keys());
-		if (words.length === 0) return '';
+		if (words.length === 0) return `${base}/`;
 		const randomIndex = Math.floor(Math.random() * words.length);
 		const randomWord = words[randomIndex];
-		return randomWord;
+		return `${base}/word/${randomWord}`;
 	};
 </script>
 
@@ -23,7 +23,7 @@
 
 	<div class="flex max-w-md self-center gap-8">
 		<a
-			href="{base}/word/{getRandomWord()}"
+			href={getRandomWordUrl()}
 			class="font-bold bg-green-400/60 hover:bg-green-500/60 border border-green-500 px-4 py-1 rounded-full duration-150">
 			Visit a Random Page
 		</a>
