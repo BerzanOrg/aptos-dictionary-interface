@@ -5,9 +5,11 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { wallet } from '$lib/stores/wallet';
-	import { Errors } from '$lib/utils/errors';
+	import { Errors, errorHandler, unhandledRejectionHandler } from '$lib/utils/errors';
+	import { contract } from '$lib/stores/contract';
 
 	onMount(wallet.onMountCallback);
+	// onMount(contract.loadDataFromChain);
 </script>
 
 <Header />
@@ -17,20 +19,4 @@
 </div>
 <Footer />
 
-<svelte:window
-	on:error={(e) => {
-		console.log(e);
-	}}
-	on:unhandledrejection={async (e) => {
-		e.preventDefault();
-		e.promise.catch((e) => {
-			const msg =
-				e === Errors.CurrentNetworkIsNotDevnet
-					? 'The current network is not set to devnet.'
-					: e === Errors.WalletNotFound
-					? 'Petra Wallet is not found.'
-					: 'An unknown error is happened.';
-
-			alert(msg);
-		});
-	}} />
+<svelte:window on:error={errorHandler} on:unhandledrejection={unhandledRejectionHandler} />
