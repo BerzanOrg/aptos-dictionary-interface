@@ -7,7 +7,7 @@ declare interface Window {
 		getAccount: () => Promise<Account>;
 		onAccountChange: (callback: (a: Account) => void) => void;
 		onDisconnect: (callback: () => void) => void;
-		signAndSubmitTransaction: (tx: Transaction) => Promise<void>;
+		signAndSubmitTransaction: (tx: Transaction) => Promise<TransactionResponse>;
 	};
 }
 
@@ -25,4 +25,8 @@ interface Transaction {
 	function: string;
 	type: string;
 	type_arguments: string[];
+}
+
+interface TransactionResponse {
+	hash: string;
 }
