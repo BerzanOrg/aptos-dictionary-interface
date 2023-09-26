@@ -22,7 +22,7 @@
 
 			<div class="flex items-center gap-4">
 				<img
-					src={author.profilePhoto}
+					src={author.profile_picture}
 					alt="your profile picture"
 					class="h-16 w-16 rounded-full border border-green-900" />
 				<a href="{base}/author/{$wallet.address}">

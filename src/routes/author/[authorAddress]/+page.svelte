@@ -13,7 +13,7 @@
 			{#if authorInfo}
 				<!-- svelte-ignore a11y-img-redundant-alt -->
 				<img
-					src={authorInfo.profilePhoto}
+					src={authorInfo.profile_picture}
 					alt="author profile photo"
 					class="h-32 w-32 rounded-full" />
 			{:else}

@@ -20,23 +20,25 @@
 			{#each entries as entry}
 				<div
 					class="flex flex-col bg-green-300 border border-green-400 px-3 pt-1 pb-2 gap-2 rounded-lg">
-					<p class="font-semibold">{entry.content}</p>
+					<p class="font-semibold">{entry.definition}</p>
 					<div class="flex justify-end gap-3">
 						<div
 							class="flex flex-col items-end text-green-600 font-['Inconsolata',mono-space] text-sm font-medium">
-							<a href="{base}/author/{entry.author}" class="underline">
-								{entry.author}
+							<a href="{base}/author/{entry.author_addr}" class="underline">
+								{entry.author_addr}
 							</a>
 							<p>
-								{new Intl.DateTimeFormat('en-UK', {
+								<!--
+									{new Intl.DateTimeFormat('en-UK', {
 									dateStyle: 'medium',
 									timeStyle: 'short'
-								}).format(entry.time)}
+									}).format(entry.time)}
+								-->
 							</p>
 						</div>
 						<img
-							src={$contract?.authors.get(entry.author)?.profilePhoto}
-							alt="profile photo of author {entry.author}"
+							src={$contract?.authors.get(entry.author_addr)?.profile_picture}
+							alt="profile photo of author {entry.author_addr}"
 							class="h-11 w-11 rounded-full border border-green-500" />
 					</div>
 				</div>
