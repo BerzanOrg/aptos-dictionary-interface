@@ -1,6 +1,7 @@
 export enum Errors {
 	CurrentNetworkIsNotDevnet,
-	WalletNotFound
+	WalletNotFound,
+	WordDefinitionIsEmpty
 }
 
 export function errorHandler(e: Event) {
@@ -15,6 +16,8 @@ export function unhandledRejectionHandler(event: PromiseRejectionEvent) {
 				? 'The current network is not set to devnet.'
 				: e === Errors.WalletNotFound
 				? 'Petra Wallet is not found.'
+				: e === Errors.WordDefinitionIsEmpty
+				? 'Definition is empty.'
 				: 'An unknown error is happened.';
 
 		alert(msg);
