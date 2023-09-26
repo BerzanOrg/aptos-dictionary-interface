@@ -10,7 +10,7 @@
 	import LoadingScreen from '$lib/components/LoadingScreen.svelte';
 
 	onMount(wallet.onMountCallback);
-	//onMount(contract.loadDataFromChain);
+	onMount(contract.loadDataFromChain);
 </script>
 
 <Header />
