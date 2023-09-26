@@ -7,15 +7,20 @@
 	import { wallet } from '$lib/stores/wallet';
 	import { Errors, errorHandler, unhandledRejectionHandler } from '$lib/utils/errors';
 	import { contract } from '$lib/stores/contract';
+	import LoadingScreen from '$lib/components/LoadingScreen.svelte';
 
 	onMount(wallet.onMountCallback);
-	// onMount(contract.loadDataFromChain);
+	//onMount(contract.loadDataFromChain);
 </script>
 
 <Header />
 <div class="flex max-w-6xl mx-auto p-4 gap-4">
 	<LeftNavbar />
-	<slot />
+	{#if $contract.is_loading}
+		<LoadingScreen />
+	{:else}
+		<slot />
+	{/if}
 </div>
 <Footer />
 
