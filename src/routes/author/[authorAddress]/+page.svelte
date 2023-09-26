@@ -4,7 +4,7 @@
 
 	export let data;
 
-	$: authorInfo = $contract?.authors.get(data.authorAddress);
+	$: authorInfo = $contract?.authorProfiles.get(data.authorAddress);
 </script>
 
 <main class="flex flex-col px-4 py-2 gap-6 bg-green-200 border border-green-300 rounded-lg w-full">
@@ -12,10 +12,7 @@
 		<h1 class="text-4xl font-bold underline">
 			{#if authorInfo}
 				<!-- svelte-ignore a11y-img-redundant-alt -->
-				<img
-					src={authorInfo.profile_picture}
-					alt="author profile photo"
-					class="h-32 w-32 rounded-full" />
+				<img src={authorInfo.picture} alt="author profile photo" class="h-32 w-32 rounded-full" />
 			{:else}
 				<p>author does not exist</p>
 			{/if}

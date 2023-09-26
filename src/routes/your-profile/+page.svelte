@@ -3,7 +3,7 @@
 	import { contract } from '$lib/stores/contract';
 	import { wallet } from '$lib/stores/wallet';
 
-	$: author = $wallet.address ? $contract?.authors.get($wallet.address) : undefined;
+	$: author = $wallet.address ? $contract?.authorProfiles.get($wallet.address) : undefined;
 </script>
 
 <main class="flex flex-col px-4 py-2 bg-green-200 border border-green-300 rounded-lg w-full">
@@ -22,7 +22,7 @@
 
 			<div class="flex items-center gap-4">
 				<img
-					src={author.profile_picture}
+					src={author.picture}
 					alt="your profile picture"
 					class="h-16 w-16 rounded-full border border-green-900" />
 				<a href="{base}/author/{$wallet.address}">

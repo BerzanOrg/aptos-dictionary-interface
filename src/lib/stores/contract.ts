@@ -4,60 +4,61 @@ import { wallet } from './wallet';
 
 interface ContractStore {
 	is_loading: boolean;
-	words: Map<string, Array<Entry>>;
-	authors: Map<string, Author>;
+	words: Map<string, Array<Definitions>>;
+	authorProfiles: Map<string, AuthorProfile>;
 }
 
-export interface Entry {
+export interface Definitions {
 	author_addr: string;
-	definition: string;
+	content: string;
 }
 
-interface Author {
+interface AuthorProfile {
 	biography: string;
-	profile_picture: string;
+	picture: string;
 }
 
 const createContractStore = () => {
 	const { set, update, subscribe } = writable<ContractStore>({
 		is_loading: true,
-		authors: new Map(),
+		authorProfiles: new Map(),
 		words: new Map()
 	});
+
+	const MODULE_ADDR = '0xa584955f037c08173d6cfae3d042bcc710f88b3581f55cbe2f42b51cf70e5c6d';
 	const provider = new Provider(Network.DEVNET);
-	const CONTRACT_ADDR = '0x79950c085acc1529fda18555cbc9510fddb882d0ed3475af97af1b067dea0275';
 
 	async function loadDataFromChain() {
 		const resource = await provider.getAccountResource(
-			CONTRACT_ADDR,
-			`${CONTRACT_ADDR}::main::Storage`
+			MODULE_ADDR,
+			`${MODULE_ADDR}::dictionary::Dictionary`
 		);
 
 		const dataFromChain = resource.data as Resource;
 
-		const authors: Map<string, Author> = new Map();
-		dataFromChain.authors.forEach(({ addr, biography, profile_picture }) =>
-			authors.set(addr, { biography, profile_picture })
+		const authors: Map<string, AuthorProfile> = new Map();
+		dataFromChain.author_profiles.forEach(({ addr, biography, picture }) =>
+			authors.set(addr, { biography, picture })
 		);
 
-		const words: Map<string, Array<Entry>> = new Map();
-		dataFromChain.dictionary.forEach(({ word, author_addr, definition }) => {
-			const entry = { author_addr, definition };
+		const words: Map<string, Array<Definitions>> = new Map();
+		dataFromChain.definitions.forEach(({ word, author_addr, content }) => {
+			const entry = { author_addr, content };
 			const entries = words.get(word);
 			entries ? entries.push(entry) : words.set(word, [entry]);
 		});
 
 		set({
 			is_loading: false,
-			authors,
+			authorProfiles: authors,
 			words
 		});
 	}
 
-	async function addEntry(word: string, definition: string, author_addr: string) {
+	async function addDefinition(word: string, definition: string, author_addr: string) {
 		const hash = await wallet.signAndSubmitTransaction({
 			type: 'entry_function_payload',
-			function: `${CONTRACT_ADDR}::main::add_entry`,
+			function: `${MODULE_ADDR}::dictionary::add_definition`,
 			arguments: [word, definition],
 			type_arguments: []
 		});
@@ -65,37 +66,41 @@ const createContractStore = () => {
 		await provider.waitForTransaction(hash);
 
 		update((oldState) => {
+			if (!oldState.words.has(word)) oldState.words.set(word, []);
+
 			const entries = oldState.words.get(word);
 
 			entries?.push({
 				author_addr,
-				definition
+				content: definition
 			});
 
-			return oldState;
+			return {
+				...oldState
+			};
 		});
 	}
 
-	async function updateAuthor(
-		old_biography: string,
-		old_profile_picture: string,
+	async function updateProfile(
+		current_biography: string,
+		current_picture: string,
 		new_biography: string,
-		new_profile_picture: string,
+		new_picture: string,
 		author_addr: string
 	) {
 		const hash = await wallet.signAndSubmitTransaction({
 			type: 'entry_function_payload',
-			function: `${CONTRACT_ADDR}::main::update_author`,
-			arguments: [old_biography, old_profile_picture, new_biography, new_profile_picture],
+			function: `${MODULE_ADDR}::dictionary::update_profile`,
+			arguments: [current_biography, current_picture, new_biography, new_picture],
 			type_arguments: []
 		});
 
 		await provider.waitForTransaction(hash);
 
 		update((oldState) => {
-			oldState.authors.set(author_addr, {
+			oldState.authorProfiles.set(author_addr, {
 				biography: new_biography,
-				profile_picture: new_profile_picture
+				picture: new_picture
 			});
 
 			return oldState;
@@ -105,22 +110,22 @@ const createContractStore = () => {
 	return {
 		subscribe,
 		loadDataFromChain,
-		addEntry,
-		updateAuthor
+		addDefinition,
+		updateProfile
 	};
 };
 
 export const contract = createContractStore();
 
 interface Resource {
-	dictionary: Array<{
+	definitions: Array<{
 		word: string;
-		definition: string;
+		content: string;
 		author_addr: string;
 	}>;
-	authors: Array<{
+	author_profiles: Array<{
 		addr: string;
 		biography: string;
-		profile_picture: string;
+		picture: string;
 	}>;
 }
