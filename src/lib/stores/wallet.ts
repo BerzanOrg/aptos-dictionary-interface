@@ -1,13 +1,13 @@
 import { Errors } from '$lib/utils/errors';
 import { writable } from 'svelte/store';
 
-interface Wallet {
+interface WalletStore {
 	isConnected: boolean;
 	address?: string;
 }
 
-const createWallet = () => {
-	const { subscribe, set, update } = writable<Wallet>({
+const createWalletStore = () => {
+	const { subscribe, set, update } = writable<WalletStore>({
 		isConnected: false,
 		address: undefined
 	});
@@ -36,14 +36,16 @@ const createWallet = () => {
 				address: undefined
 			});
 		},
-		signAndSubmit: async (tx: Transaction) => {
-			if (!window.aptos) return;
+		signAndSubmitTransaction: async (tx: Transaction) => {
+			if (!window.aptos) throw Errors.WalletNotFound;
 
 			const { chainId } = await window.aptos.getNetwork();
 
 			if (chainId !== '81') throw Errors.CurrentNetworkIsNotDevnet;
 
-			return window.aptos.signAndSubmitTransaction(tx);
+			const { hash } = await window.aptos.signAndSubmitTransaction(tx);
+
+			return hash;
 		},
 		onMountCallback: () => {
 			if (!window.aptos) return;
@@ -65,4 +67,4 @@ const createWallet = () => {
 	};
 };
 
-export const wallet = createWallet();
+export const wallet = createWalletStore();
