@@ -8,7 +8,7 @@
 	export let data;
 
 	/** Definitions for the word of the current page.*/
-	$: definitions = $contract?.words.get(data.word);
+	$: definitions = $contract?.definitions.get(data.word);
 
 	/** Binded value for definiton written in textarea. */
 	let definition: string = '';
@@ -40,16 +40,8 @@
 						<div
 							class="flex flex-col items-end text-green-600 font-['Inconsolata',mono-space] text-sm font-medium">
 							<a href="{base}/author/{definition.author_addr}" class="underline">
-								{definition.author_addr}
-							</a>
-							<p>
-								<!--
-									{new Intl.DateTimeFormat('en-UK', {
-									dateStyle: 'medium',
-									timeStyle: 'short'
-									}).format(entry.time)}
-								-->
-							</p>
+								{definition.author_addr}</a>
+							<p>{definition.datetime}</p>
 						</div>
 						<img
 							src={$contract?.authorProfiles.get(definition.author_addr)?.picture ||
