@@ -3,7 +3,7 @@
 	import { contract } from '$lib/stores/contract';
 
 	$: getRandomWordUrl = () => {
-		const words = Array.from($contract.words.keys());
+		const words = Array.from($contract.definitions.keys());
 		if (words.length === 0) return `${base}/`;
 		const randomIndex = Math.floor(Math.random() * words.length);
 		const randomWord = words[randomIndex];
