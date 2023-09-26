@@ -25,7 +25,7 @@ const createContractStore = () => {
 		words: new Map()
 	});
 
-	const MODULE_ADDR = '0xa584955f037c08173d6cfae3d042bcc710f88b3581f55cbe2f42b51cf70e5c6d';
+	const MODULE_ADDR = '0x924a57c844cee4f0733134ecaf57bd82145df9a472f46940c558100a036e1908';
 	const provider = new Provider(Network.DEVNET);
 
 	async function loadDataFromChain() {
