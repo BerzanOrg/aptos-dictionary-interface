@@ -9,7 +9,7 @@
 		let newWord = prompt('Word to add:');
 
 		if (!newWord) return;
-		if ($contract.words.has(newWord)) throw Errors.WordAlreadyExists;
+		if ($contract.definitions.has(newWord)) throw Errors.WordAlreadyExists;
 
 		// replace spaces with hyphen
 		newWord = newWord
@@ -29,8 +29,8 @@
 	<div class="flex flex-col">
 		<h2 class="text-lg font-bold select-none">Words In The Dictionary</h2>
 		<div class="flex flex-col gap-0.5 underline font-medium text-green-700">
-			{#if $contract?.words}
-				{#each $contract.words as [word]}
+			{#if $contract?.definitions}
+				{#each $contract.definitions as [word]}
 					<a href="{base}/word/{word}">{word}</a>
 				{/each}
 			{/if}
