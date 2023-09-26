@@ -1,25 +1,37 @@
 export enum Errors {
 	CurrentNetworkIsNotDevnet,
 	WalletNotFound,
-	WordDefinitionIsEmpty
+	WordDefinitionIsEmpty,
+	WordAlreadyExists
+}
+
+function alertError(e: any) {
+	switch (e) {
+		case Errors.CurrentNetworkIsNotDevnet:
+			alert('The current network is not set to devnet.');
+			break;
+		case Errors.WalletNotFound:
+			alert('Petra Wallet is not found.');
+			break;
+		case Errors.WordDefinitionIsEmpty:
+			alert('Definition is empty.');
+			break;
+		case Errors.WordAlreadyExists:
+			alert('This word already exists in the dictionary.');
+			break;
+		default:
+			alert('An unknown error is happened.');
+	}
 }
 
 export function errorHandler(e: Event) {
-	console.log(e);
+	e.preventDefault();
+
+	alertError((e as any).error);
 }
 
 export function unhandledRejectionHandler(event: PromiseRejectionEvent) {
 	event.preventDefault();
-	event.promise.catch((e) => {
-		const msg =
-			e === Errors.CurrentNetworkIsNotDevnet
-				? 'The current network is not set to devnet.'
-				: e === Errors.WalletNotFound
-				? 'Petra Wallet is not found.'
-				: e === Errors.WordDefinitionIsEmpty
-				? 'Definition is empty.'
-				: 'An unknown error is happened.';
 
-		alert(msg);
-	});
+	event.promise.catch(alertError);
 }
