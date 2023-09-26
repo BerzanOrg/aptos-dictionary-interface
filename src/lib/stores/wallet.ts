@@ -41,7 +41,7 @@ const createWallet = () => {
 
 			const { chainId } = await window.aptos.getNetwork();
 
-			if (chainId !== '82') throw Errors.CurrentNetworkIsNotDevnet;
+			if (chainId !== '81') throw Errors.CurrentNetworkIsNotDevnet;
 
 			return window.aptos.signAndSubmitTransaction(tx);
 		},
