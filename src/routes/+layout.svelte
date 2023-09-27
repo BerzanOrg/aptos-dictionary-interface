@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { wallet } from '$lib/stores/wallet';
-	import { Errors, errorHandler, unhandledRejectionHandler } from '$lib/utils/errors';
+	import { errorHandler, unhandledRejectionHandler } from '$lib/utils/errors';
 	import { contract } from '$lib/stores/contract';
 	import LoadingScreen from '$lib/components/LoadingScreen.svelte';
 
