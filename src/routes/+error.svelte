@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Main from '$lib/components/Main.svelte';
 </script>
 
-<main class="flex flex-col px-3 py-1 bg-green-200 border border-green-300 rounded-lg w-full">
-	<h1>{$page.error?.message}</h1>
-</main>
+<Main>
+	<div class="flex flex-col px-3 py-1">
+		<h1>{$page.error?.message}</h1>
+	</div>
+</Main>
