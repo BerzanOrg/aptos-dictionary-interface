@@ -2,7 +2,9 @@ export enum Errors {
 	CurrentNetworkIsNotDevnet,
 	WalletNotFound,
 	WordDefinitionIsEmpty,
-	WordAlreadyExists
+	WordAlreadyExists,
+	InvalidURL,
+	URLIsNotAnImage
 }
 
 function alertError(e: any) {
@@ -18,6 +20,12 @@ function alertError(e: any) {
 			break;
 		case Errors.WordAlreadyExists:
 			alert('This word already exists in the dictionary.');
+			break;
+		case Errors.InvalidURL:
+			alert('Invalid URL.');
+			break;
+		case Errors.URLIsNotAnImage:
+			alert('The URL is not an image.');
 			break;
 		default:
 			alert('An unknown error is happened.');
