@@ -9,3 +9,13 @@ export function autoRowsHandler(e: { currentTarget: HTMLTextAreaElement }) {
 export function disableNewlineHandler(e: KeyboardEvent) {
 	if (e.key === 'Enter') e.preventDefault();
 }
+
+/** Disables adding newlines inside a textarea element. */
+export function disableNewlineAndUnfocusHandler(
+	e: KeyboardEvent & { currentTarget: HTMLTextAreaElement }
+) {
+	if (e.key === 'Enter') {
+		e.preventDefault();
+		e.currentTarget.blur();
+	}
+}
