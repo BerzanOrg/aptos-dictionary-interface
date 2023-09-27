@@ -14,7 +14,7 @@ export interface Definition {
 	datetime: string;
 }
 
-interface AuthorProfile {
+export interface AuthorProfile {
 	biography: string;
 	picture: string;
 }
