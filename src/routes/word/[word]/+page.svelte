@@ -19,7 +19,7 @@
 			</h1>
 		</a>
 		<div class="flex flex-col gap-5">
-			{#each definitions ?? [] as definition}
+			{#each definitions ?? [] as definition (definition.datetime)}
 				<Definition {definition} />
 			{/each}
 			<AddDefinition word={data.word} />
